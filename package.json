@@ -1,0 +1,11 @@
+{
+  "name": "arguments-for-liberty",
+  "version": "1.0.0",
+  "author": "Zachary Yates <zachary.yates@gmail.com>",
+  "description": "The arguments for liberty site",
+  "main": "./src/publish.js",
+  "dependencies": {
+    "handlebars": "*",
+    "uglify-js": "*"
+  }
+}
