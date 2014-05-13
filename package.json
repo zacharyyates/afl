@@ -5,8 +5,11 @@
   "description": "The arguments for liberty site",
   "main": "./src/publish.js",
   "dependencies": {
-    "handlebars": "*",
     "uglify-js": "*",
-    "less": "*"
+    "less": "*",
+    "normalize.css": "*",
+    "hbs": "*",
+    "fs-extra": "^0.8.1",
+    "clean-css": "^2.1.8"
   }
 }
