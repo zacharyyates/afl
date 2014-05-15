@@ -1,35 +1,42 @@
 <!doctype html>
 <html lang="en-US">
 <head>
-	<meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Article Title</title>
+  {{head}}
 </head>
 <body>
-	<header>
-	
-	</header>
-	
-	<!-- content -->
-	<main>
-		<article>
-			
-		</article>
-		<!-- comments -->
-		<div>
-		
-		</div>
-	</main>
-	
-	<!-- references -->
-	<aside>
-		
-	</aside>
-	
-	<!-- general site stuff -->
-	<footer>
-	
-	</footer>
+  <div id="page" class="container-fluid">
+    <header>
+      <h1>{{ title.[0] }}</h1>
+      <h2>{{ subtitle.[0] }}</h2>
+    </header>
+    
+    <!-- content -->
+    <div class="row">
+      <article class="col-sm-9">
+        <section>
+          {{{ logic-body.[0] }}}
+        </section>
+        <section>
+          {{{ data-body.[0] }}}
+        </section>
+        <!-- comments -->    
+        <section>
+      
+        </section>
+      </article>
+      
+      <!-- references -->
+      <aside class="col-sm-3">
+        {{#each references.[0].ref }}
+          <div>
+            <a href="{{$.href}}">{{$.title}}</a>
+            {{{_}}}
+          </div>
+        {{/each}}
+      </aside>
+    </div>
+  </div>
+  
+	{{footer}}
 </body>
 </html>

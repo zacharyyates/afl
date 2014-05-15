@@ -1,0 +1,22 @@
+<root>
+  <title>Who will build the roads?</title>
+  <subtitle>or How will we do X in a free society?</subtitle>
+  <logic-body>
+  <![CDATA[
+    <p>
+      This is a common response when people are introduced to the argument that government is force.
+    </p>
+  ]]>
+  </logic-body>
+  <data-body>
+  
+  </data-body>
+  <references>
+    <ref title="Reference 1" href="http://wiki.com/ref1">
+      Reference 1 Body
+    </ref>
+    <ref title="Reference 2" href="http://wiki.com/ref2">
+      Reference 2 Body
+    </ref>
+  </references>
+</root>

@@ -10,6 +10,7 @@
     "normalize.css": "*",
     "hbs": "*",
     "fs-extra": "*",
-    "clean-css": "*"
+    "clean-css": "*",
+    "xml2js": "^0.4.2"
   }
 }
