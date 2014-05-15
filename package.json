@@ -9,7 +9,7 @@
     "less": "*",
     "normalize.css": "*",
     "hbs": "*",
-    "fs-extra": "^0.8.1",
-    "clean-css": "^2.1.8"
+    "fs-extra": "*",
+    "clean-css": "*"
   }
 }

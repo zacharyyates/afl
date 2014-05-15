@@ -12,26 +12,28 @@ var log = function () {
   console.log.apply(this, arguments);
 };
 var sourcePath = "./src";
-var buildPath = "./obj";
-var outputPath = "./bin";
+var objPath = "./obj";
+var binPath = "./bin";
 
 var cssPath = "/assets/css";
 var imgPath = "/assets/img";
+var viewsPath = "/views";
+var dataPath = "/data";
 
 // clean the build and output
 try {
-  fs.removeSync(buildPath);
+  fs.removeSync(objPath);
 } 
 finally {
-  fs.mkdirsSync(buildPath);
-  fs.mkdirsSync(buildPath + cssPath);
+  fs.mkdirsSync(objPath);
+  fs.mkdirsSync(objPath + cssPath);
 }
 
 try {
-  fs.removeSync(outputPath);
+  fs.removeSync(binPath);
 } finally {
-  fs.mkdirsSync(outputPath);
-  fs.mkdirsSync(outputPath + cssPath);
+  fs.mkdirsSync(binPath);
+  fs.mkdirsSync(binPath + cssPath);
 }
 
 // process styles
@@ -41,7 +43,7 @@ var sourceStyleFiles = fs.readdirSync(sourcePath + cssPath);
 sourceStyleFiles.forEach(function (fileName) {
   if (path.extname(fileName) === ".less") {
     var inputPath = sourcePath + cssPath + "/" + fileName;
-    var outputPath = buildPath + cssPath + "/" + fileName.replace(".less", ".css");
+    var outputPath = objPath + cssPath + "/" + fileName.replace(".less", ".css");
     
     var input = fs.readFileSync(inputPath, "utf8");
     var output = less.render(input, function (e, css) {      
@@ -52,13 +54,13 @@ sourceStyleFiles.forEach(function (fileName) {
 });
 
 // concat and minify
-var buildStyleFiles = fs.readdirSync(buildPath + cssPath);
-var outputCssFilePath = outputPath + cssPath + "/public.css";
+var buildStyleFiles = fs.readdirSync(objPath + cssPath);
+var outputCssFilePath = binPath + cssPath + "/public.css";
 var sourceCss = "";
 
 buildStyleFiles.forEach(function (fileName) {
   if (path.extname(fileName) === ".css") {
-    var inputPath = buildPath + cssPath + "/" + fileName;
+    var inputPath = objPath + cssPath + "/" + fileName;
     log("concatenating " + inputPath + "...");
     sourceCss += "\n" + fs.readFileSync(inputPath, "utf8");
   }
@@ -66,3 +68,32 @@ buildStyleFiles.forEach(function (fileName) {
 
 var minifiedCss = new CleanCSS().minify(sourceCss);
 fs.writeFileSync(outputCssFilePath, minifiedCss);
+
+// import header and footer
+var headSource = fs.readFileSync(sourcePath + views + "/head.html", "utf8");
+var headerSource = fs.readFileSync(sourcePath + views + "/header.html", "utf8");
+var footerSource = fs.readFileSync(sourcePath + views + "/footer.html", "utf8");
+
+// compile article template
+var articleSource = fs.readFileSync(sourcePath + views + "/article.html", "utf8");
+
+// replace header/footer includes
+articleSource = articleSource.replace("{{head}}", headSource);
+articleSource = articleSource.replace("{{header}}", headerSource);
+articleSource = articleSource.replace("{{footer}}", footerSource);
+
+var articleTemplate = hbs.compile(articleSource);
+
+// load article data
+var articleFiles = fs.readdirSync(dataPath + "/articles");
+articleFiles.forEach(function (fileName) {
+  if (path.extname(fileName) === ".json") {
+    var inputPath = dataPath + "/articles/" + fileName;
+    var outputPath = binPath + "/arguments/" + fileName.replace(".json", ".html");
+    var input = fs.readFileSync(inputPath, "utf8");
+    var json = JSON.parse(input);
+    
+    var output = articleTemplate(json);
+    fs.writeFileSync(outputPath, output);
+  }
+});
